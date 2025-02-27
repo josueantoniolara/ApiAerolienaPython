@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Búsqueda</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Resultados de Búsqueda</h1>
+        <a href="/" class="btn btn-secondary">Volver a Todos los Vuelos</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Número de Vuelo</th>
+                    <th>Aerolínea</th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flight in flights %}
+                <tr>
+                    <td>{{ flight.flight.iata }}</td>
+                    <td>{{ flight.airline.name }}</td>
+                    <td>{{ flight.departure.airport }}</td>
+                    <td>{{ flight.arrival.airport }}</td>
+                    <td>{{ flight.flight_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
