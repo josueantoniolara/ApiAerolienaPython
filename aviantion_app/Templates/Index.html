@@ -28,13 +28,15 @@
                 </tr>
             </thead>
             <tbody>
-                {% for flight in flights %}
+                {% for flight in vuelos %}
                 <tr>
-                    <td>{{ flight.flight.iata }}</td>
+                    <td>{{ flight.flight.number }}</td>
                     <td>{{ flight.airline.name }}</td>
                     <td>{{ flight.departure.airport }}</td>
                     <td>{{ flight.arrival.airport }}</td>
                     <td>{{ flight.flight_status }}</td>
+                    <td>{{ flight.live.latitude }}</td>
+                    <td>{{ flight.live.longitude }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

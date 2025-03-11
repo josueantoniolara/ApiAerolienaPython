@@ -4,9 +4,10 @@ import json
 
 app = Flask(__name__)
 
-API_KEY = "4a332c10643b7e1985a9d760f23a7045"  
+API_KEY = "4a332c10643b7e1985a9d760f23a7045"
+
 def obtener_vuelos_en_vuelo():
-    """Obtiene vuelos en vuelo con latitud y longitud desde AviationStack."""
+    """Obtiene vuelos en vuelo con todos los datos necesarios para la tabla."""
     url = f"http://api.aviationstack.com/v1/flights?access_key={API_KEY}&flight_status=active"
 
     try:
@@ -16,22 +17,15 @@ def obtener_vuelos_en_vuelo():
         vuelos_filtrados = []
         if datos.get("data"):
             for vuelo in datos["data"]:
-                aerolinea = vuelo["airline"]["name"]
-                numero_vuelo = vuelo["flight"]["number"]
-                ubicacion = vuelo.get("live")
-
-                if ubicacion and "latitude" in ubicacion and "longitude" in ubicacion:
-                    latitud = ubicacion["latitude"]
-                    longitud = ubicacion["longitude"]
-
-                    if latitud is not None and longitud is not None:
-                        vuelos_filtrados.append({
-                            "aerolinea": aerolinea,
-                            "numero_vuelo": numero_vuelo,
-                            "latitud": latitud,
-                            "longitud": longitud
-                        })
-
+                if vuelo["live"] is not None: # Verifica si hay datos en vivo
+                    vuelos_filtrados.append({
+                        "flight": vuelo["flight"],
+                        "airline": vuelo["airline"],
+                        "departure": vuelo["departure"],
+                        "arrival": vuelo["arrival"],
+                        "flight_status": vuelo["flight_status"],
+                        "live": vuelo["live"]
+                    })
         return vuelos_filtrados
     except subprocess.CalledProcessError as e:
         print(f"Error al obtener datos de la API: {e}")
@@ -50,7 +44,7 @@ def index():
     busqueda = request.args.get("busqueda", "").lower()
 
     if busqueda:
-        vuelos = [vuelo for vuelo in vuelos if busqueda in vuelo["aerolinea"].lower() or busqueda in vuelo["numero_vuelo"]]
+        vuelos = [vuelo for vuelo in vuelos if busqueda in vuelo["airline"]["name"].lower() or busqueda in vuelo["flight"]["number"]]
 
     return render_template("index.html", vuelos=vuelos, busqueda=busqueda)
 
