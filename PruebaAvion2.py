@@ -4,7 +4,8 @@ import json
 
 app = Flask(__name__)
 
-API_KEY = "4a332c10643b7e1985a9d760f23a7045"  
+API_KEY = "4a332c10643b7e1985a9d760f23a7045"  # Reemplaza con tu clave de API
+
 def obtener_vuelos_en_vuelo():
     """Obtiene vuelos en vuelo con latitud y longitud desde AviationStack."""
     url = f"http://api.aviationstack.com/v1/flights?access_key={API_KEY}&flight_status=active"
