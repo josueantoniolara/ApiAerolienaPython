@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados de Búsqueda</title>
+    <title>Vuelos Disponibles</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>Resultados de Búsqueda</h1>
-        <a href="/" class="btn btn-secondary">Volver a Todos los Vuelos</a>
+        <h1>Vuelos Disponibles</h1>
+        <form method="GET">
+            <div class="form-group">
+                <label for="flight_iata">Buscar por IATA:</label>
+                <input type="text" class="form-control" id="flight_iata" name="busqueda">
+            </div>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
         <table class="table">
             <thead>
                 <tr>
@@ -19,16 +25,20 @@
                     <th>Origen</th>
                     <th>Destino</th>
                     <th>Estado</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
                 </tr>
             </thead>
             <tbody>
-                {% for flight in flights %}
+                {% for flight in vuelos %}
                 <tr>
-                    <td>{{ flight.flight.iata }}</td>
+                    <td>{{ flight.flight.number }}</td>
                     <td>{{ flight.airline.name }}</td>
                     <td>{{ flight.departure.airport }}</td>
                     <td>{{ flight.arrival.airport }}</td>
                     <td>{{ flight.flight_status }}</td>
+                    <td>{{ flight.live.latitude }}</td>
+                    <td>{{ flight.live.longitude }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
